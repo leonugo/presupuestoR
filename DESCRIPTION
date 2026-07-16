@@ -1,7 +1,7 @@
 Package: presupuestoR
 Type: Package
 Title: Paquete para análisis del presupuesto federal de México
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person("Javier", "Mtz-Rdz", email = "javier.mtz.rd@gmail.com",
            role = c("aut", "cph"),

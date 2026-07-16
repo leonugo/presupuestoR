@@ -2,6 +2,15 @@
 
 Este fork parte de la versión 0.1 de [`presupuestoR`](https://github.com/JavierMtzRdz/presupuestoR), creado y escrito por Javier Martínez-Rodríguez. Aquí se documentan únicamente los cambios hechos en este fork; el historial completo de la autoría original está intacto en el historial de commits de este repositorio.
 
+## 0.1.2
+
+- **Validado empíricamente, sin cambio de comportamiento:** se resolvieron las dos discrepancias documentadas en 0.1.1 entre `netear_tp()` y una reimplementación manual de la misma lógica usada en `03_codigos/02_Visualizaciones.R` (proyecto de Presupuesto), comparando contra cifras oficiales reales en vez de opinión:
+  - **Metodología:** se tomaron los archivos crudos reales de PEF 2022, PEF 2026 y Cuenta Pública 2022/2025 (datos abiertos de Transparencia Presupuestaria) y se probaron 4 combinaciones de reglas (excepción de ramo 51 amplia vs. angosta; con y sin regla de partida 45203), comparando el gasto neto total resultante contra cifras oficiales ya publicadas: el gasto neto total decretado de PEF 2022 ($7,088,250,300,000, el mismo ejemplo que trae el README) y de PEF 2026 ($10,193,683,700,000).
+  - **Resultado 1 — excepción de ramo 51 (confirmada correcta tal como estaba):** aplicarla a las 8 partidas de aportaciones ISSSTE/cesantía por igual (comportamiento actual de `netear_tp()`) reproduce ambas cifras oficiales exactas (diferencia = $0 en los dos años). La reimplementación externa, que solo eximía a la partida 16107, sobre-neteaba por $3,011 millones (PEF 2022) y $3,360 millones (PEF 2026). **No se cambia el comportamiento.**
+  - **Resultado 2 — regla de partida 45203 (confirmada innecesaria):** se probó agregarla en los 4 datasets (PEF 2022, CP 2022, PEF 2026, CP 2025) y **nunca cambió ningún resultado** — esas filas ya quedan capturadas por la regla existente de capítulo 4000 + ramo 19 + UR ISSSTE/IMSS. **No se agrega la regla.**
+  - **Sigue sin resolverse:** para EJERCIDO (probado contra Cuenta Pública 2022), ninguna combinación de reglas reproduce la cifra oficial de gasto neto ejercido — queda una diferencia de ~$29-31 mil millones (~0.4%) que no depende de las dos reglas de arriba (persiste igual con o sin ellas). La advertencia original de que `netear_tp()` "sólo es correcta aplicada al presupuesto aprobado" **sigue vigente** para ejercido/modificado/pagado. No se intentó forzar un ajuste sin evidencia adicional (ver docstring de `netear_tp()` para el detalle).
+  - Se agregó `tests/testthat/test-netear_tp.R` que fija este comportamiento contra regresiones.
+
 ## 0.1.1
 
 - **Corregido:** `id_ramo_to_tipo_ramo()` no clasificaba el ramo 56 (Servicios de Salud del IMSS para el Bienestar / IMSS-Bienestar), formalizado como ramo presupuestario propio a partir del ciclo 2026. El gasto de ese ramo quedaba con `tipo_ramo = NA` y por lo tanto desaparecía de cualquier agrupación o total que usara esa clasificación. Se agregó a la categoría "Entidades sujetas a control presupuestario directo", junto con IMSS (50) e ISSSTE (51).

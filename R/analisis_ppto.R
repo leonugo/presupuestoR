@@ -1225,8 +1225,21 @@ bind_pef_tp_wide <- function(lista_df, ...) {
 #' neteadas en caso de realizarse un análisis del presupuesto neto. Esta
 #' clasificación la realiza sobre archivos presupuestales con la estructura
 #' de los datos de presupuesto abierto de Transparencia Presupuestaria.
-#' Ojo: esta función aún está en desarrollo y, hasta ahora, el neteo sólo
-#' es correcto aplicado al presupuesto aprobado.
+#'
+#' Validado (fork leonugo, 2026-07-16) contra el gasto neto total APROBADO
+#' decretado oficialmente, en dos ciclos con estructura de ramos distinta:
+#' PEF 2022 ($7,088,250,300,000) y PEF 2026 ($10,193,683,700,000). En ambos
+#' casos esta función reproduce la cifra oficial exacta (diferencia = $0).
+#' Ver NEWS.md 0.1.1 para la metodología y `tests/testthat/test-netear_tp.R`
+#' para el test de regresión.
+#'
+#' Ojo: esta validación cubre únicamente el presupuesto APROBADO. Para
+#' EJERCIDO/MODIFICADO/PAGADO (ej. Cuenta Pública, avances trimestrales)
+#' se probó contra Cuenta Pública 2022 y quedó una diferencia sin explicar
+#' de ~29-31 mil millones de pesos (~0.4%) frente a la cifra oficial de
+#' gasto neto ejercido, que no depende de las dos reglas revisadas abajo
+#' (persiste igual con o sin ellas) — sigue sin resolverse y no se debe
+#' asumir que esta función da la cifra correcta para esas etapas del gasto.
 #'
 #' @param .x .xframe con la estructura de los datos abiertos de
 #' presupuesto de Transparencia Presupuestaria.
@@ -1238,14 +1251,23 @@ bind_pef_tp_wide <- function(lista_df, ...) {
 #' @return .xframe cuya descripción de ramo indica los casos en que esa
 #' categoría del gasto debe ser neteada.
 #' @export
-# TODO (fork leonugo, 2026-07-16): revisar dos posibles discrepancias entre
-# esta función y reimplementaciones manuales de la misma lógica usadas en
-# otros scripts del proyecto de Presupuesto: (1) la excepción de ramo 51
-# aplicada aquí a las 8 partidas de aportaciones ISSSTE/cesantía por igual
-# (abajo) puede no ser correcta para todas ellas; (2) falta una posible
-# regla para la partida 45203 (transferencias para pago de pensiones y
-# jubilaciones) del ramo 19. No se modifica el comportamiento todavía —
-# ver NEWS.md 0.1.1 para el detalle antes de tocar esto.
+# Nota (fork leonugo, 2026-07-16): se revisaron dos posibles discrepancias
+# entre esta función y una reimplementación manual usada en
+# 03_codigos/02_Visualizaciones.R del proyecto de Presupuesto:
+# (1) la excepción de ramo 51 aplicada aquí a las 8 partidas de aportaciones
+#     ISSSTE/cesantía por igual (abajo) — CONFIRMADA correcta: la
+#     reimplementación manual, que sólo aplicaba la excepción a la partida
+#     16107, sub-neteaba (sobre-restaba) por ~$3,011 millones en PEF 2022 y
+#     ~$3,360 millones en PEF 2026 frente a la cifra oficial. No se cambia
+#     el comportamiento — ya estaba bien.
+# (2) una posible regla para la partida 45203 (transferencias para pago de
+#     pensiones y jubilaciones) del ramo 19, presente en la reimplementación
+#     manual pero no aquí — CONFIRMADA innecesaria: en los 4 datasets
+#     probados (PEF 2022, Cuenta Pública 2022, PEF 2026, Cuenta Pública
+#     2025) agregar esta regla nunca cambió ningún resultado, porque esas
+#     filas ya quedan capturadas por la regla de capítulo 4000 + ramo 19 +
+#     UR ISSSTE/IMSS. No se agrega la regla.
+# Ver NEWS.md 0.1.1 para el detalle completo de la metodología de validación.
 netear_tp <- function(.x, ..., keep_mensual = T) {
   .x <- .x %>%
     janitor::clean_names() %>%
