@@ -6,6 +6,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+> **Sobre este fork.** `presupuestoR` fue creado por [Javier Martínez-Rodríguez](https://github.com/JavierMtzRdz), quien diseñó y escribió el paquete completo mientras ambos formábamos parte del equipo de la Unidad de Investigación Aplicada de Mexicanos Contra la Corrupción y la Impunidad (MCCI). Este fork, mantenido por [Leonardo Núñez González](https://github.com/leonugo), es un proyecto de ampliación sobre su trabajo original: el ingenio y el esfuerzo detrás de la lógica de neteo, agregación y clasificación del presupuesto son de Javier. Aquí se documentan las correcciones y extensiones hechas a partir de la versión 0.1 (ver [NEWS.md](NEWS.md)). Repositorio original: [JavierMtzRdz/presupuestoR](https://github.com/JavierMtzRdz/presupuestoR).
+>
+> **About this fork.** `presupuestoR` was created by [Javier Martínez-Rodríguez](https://github.com/JavierMtzRdz), who designed and wrote the entire package while we were both part of the Applied Research Unit at Mexicanos Contra la Corrupción y la Impunidad (MCCI). This fork, maintained by [Leonardo Núñez González](https://github.com/leonugo), builds on his original work — the ingenuity and effort behind the netting, aggregation, and budget classification logic are his. Corrections and extensions made from version 0.1 onward are documented in [NEWS.md](NEWS.md). Original repository: [JavierMtzRdz/presupuestoR](https://github.com/JavierMtzRdz/presupuestoR).
+
+
 [Español](#readme-en-español) Este paquete proporciona una colección de
 funciones para el análisis presupuestario utilizando datos abiertos de
 [Transparencia
@@ -23,9 +28,9 @@ La versión en desarrollo puede ser instalada de
 [GitHub](https://github.com/) con:
 
 ``` r
-remotes::install_github("JavierMtzRdz/presupuestoR")
+remotes::install_github("leonugo/presupuestoR")
 # Or
-devtools::install_github("JavierMtzRdz/presupuestoR")   
+devtools::install_github("leonugo/presupuestoR")   
 ```
 
 ### Descripción general
@@ -89,9 +94,9 @@ You can install the development version of presupuestoR from
 [GitHub](https://github.com/) with:
 
 ``` r
-remotes::install_github("JavierMtzRdz/presupuestoR")
+remotes::install_github("leonugo/presupuestoR")
 # Or
-devtools::install_github("JavierMtzRdz/presupuestoR")   
+devtools::install_github("leonugo/presupuestoR")   
 ```
 
 ### Overview

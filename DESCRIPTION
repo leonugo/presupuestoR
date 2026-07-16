@@ -1,16 +1,26 @@
 Package: presupuestoR
 Type: Package
 Title: Paquete para análisis del presupuesto federal de México
-Version: 0.1
-Author: person("Javier", "Mtz-Rdz", email = "javier.mtz.rd@gmail.com",
-                  role = c("aut", "cre"))
-Maintainer: Javier Mtz-Rdz <javier.mtz.rd@gmail.com>
+Version: 0.1.1
+Authors@R: c(
+    person("Javier", "Mtz-Rdz", email = "javier.mtz.rd@gmail.com",
+           role = c("aut", "cph"),
+           comment = "Autor y creador original del paquete"),
+    person("Leonardo", "Núñez González", email = "leonugo@gmail.com",
+           role = c("aut", "cre"),
+           comment = "Mantiene este fork; correcciones y extensiones a partir de la versión 0.1"))
+Maintainer: Leonardo Núñez González <leonugo@gmail.com>
 Description: Este paquete contiene funciones para procesar 
-    de manera más eficiente la información presupuestalmente de
+    de manera más eficiente la información presupuestal de
     México. Particularmente en el formato de Transparencia Presupuestaria.
+    Este es un fork de <https://github.com/JavierMtzRdz/presupuestoR>,
+    el paquete original creado por Javier Martínez-Rodríguez, mantenido
+    para incorporar correcciones y extensiones (ver NEWS.md).
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/leonugo/presupuestoR
+BugReports: https://github.com/leonugo/presupuestoR/issues
 Depends: R (>= 3.1.0)
 Imports:
     magrittr,
