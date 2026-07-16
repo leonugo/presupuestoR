@@ -1235,11 +1235,23 @@ bind_pef_tp_wide <- function(lista_df, ...) {
 #'
 #' Ojo: esta validación cubre únicamente el presupuesto APROBADO. Para
 #' EJERCIDO/MODIFICADO/PAGADO (ej. Cuenta Pública, avances trimestrales)
-#' se probó contra Cuenta Pública 2022 y quedó una diferencia sin explicar
-#' de ~29-31 mil millones de pesos (~0.4%) frente a la cifra oficial de
-#' gasto neto ejercido, que no depende de las dos reglas revisadas abajo
-#' (persiste igual con o sin ellas) — sigue sin resolverse y no se debe
-#' asumir que esta función da la cifra correcta para esas etapas del gasto.
+#' el neteo transaccional (qué partidas excluir) parece correcto, pero no
+#' hay que esperar que reproduzca al peso la cifra de "gasto neto total"
+#' que publica SHCP. Investigado el 2026-07-16 contra Cuenta Pública 2022:
+#' el "pagado" neteado con esta función cae *entre* las dos cifras que la
+#' propia SHCP publica para el mismo concepto -- la preliminar del cierre
+#' de diciembre ($7,568,971.5 millones, ver FP_202212.pdf,
+#' finanzaspublicas.hacienda.gob.mx) y la final de Cuenta Pública
+#' ($7,595,307.9 millones) -- que ya difieren entre sí por $26,336 millones
+#' solo por la revisión preliminar-a-final. Sumar la columna "adefas" del
+#' dato crudo NO cierra el hueco (lo empeora): la nota de esa tabla oficial
+#' aclara que "Adefas y otros" mezcla Adeudos de Ejercicios Fiscales
+#' Anteriores con "cuentas ajenas al presupuesto" -- un ajuste contable de
+#' nivel superior, no una partida más que netear a nivel transaccional.
+#' Conclusión: para ejercido/modificado/pagado, esperar un margen de
+#' ~0.2-0.4% frente a la cifra oficial exacta; no citar el resultado de
+#' esta función como idéntico peso-por-peso a la Cuenta Pública sin esa
+#' salvedad.
 #'
 #' @param .x .xframe con la estructura de los datos abiertos de
 #' presupuesto de Transparencia Presupuestaria.

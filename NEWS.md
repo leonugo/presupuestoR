@@ -2,6 +2,10 @@
 
 Este fork parte de la versión 0.1 de [`presupuestoR`](https://github.com/JavierMtzRdz/presupuestoR), creado y escrito por Javier Martínez-Rodríguez. Aquí se documentan únicamente los cambios hechos en este fork; el historial completo de la autoría original está intacto en el historial de commits de este repositorio.
 
+## 0.1.3
+
+- **Solo documentación, sin cambio de comportamiento:** se investigó a fondo por qué el neteo de EJERCIDO/MODIFICADO/PAGADO (0.1.2) no reproduce al peso la cifra oficial de "gasto neto total". Se descargó directamente el informe oficial de SHCP (`FP_202212.pdf`, finanzaspublicas.hacienda.gob.mx) en vez de depender de una cifra de noticias. Hallazgo: la propia SHCP publica **dos** cifras oficiales distintas para el mismo concepto de 2022 — la preliminar del cierre de diciembre ($7,568,971.5 millones) y la final de Cuenta Pública ($7,595,307.9 millones) — que ya difieren entre sí por $26,336 millones solo por la revisión preliminar-a-final. El resultado de `netear_tp()` para "pagado" ($7,581,804,868,300) cae *entre* ambas cifras oficiales, dentro de ese mismo margen de ruido. Sumar la columna "adefas" del dato crudo no cierra el hueco (lo empeora) — la nota de la tabla oficial confirma que "Adefas y otros" es un ajuste contable de nivel superior (mezcla Adeudos de Ejercicios Fiscales Anteriores con "cuentas ajenas al presupuesto"), no una partida más que netear a nivel transaccional. Conclusión: el neteo transaccional de esta función es correcto también para ejercido/pagado; el margen restante (~0.2-0.4%) es de conciliación contable fuera del alcance de esta función, no una regla faltante. Ver docstring de `netear_tp()` para el detalle.
+
 ## 0.1.2
 
 - **Validado empíricamente, sin cambio de comportamiento:** se resolvieron las dos discrepancias documentadas en 0.1.1 entre `netear_tp()` y una reimplementación manual de la misma lógica usada en `03_codigos/02_Visualizaciones.R` (proyecto de Presupuesto), comparando contra cifras oficiales reales en vez de opinión:
