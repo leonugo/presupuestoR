@@ -1,0 +1,8 @@
+# presupuestoR (fork de leonugo)
+
+Este fork parte de la versión 0.1 de [`presupuestoR`](https://github.com/JavierMtzRdz/presupuestoR), creado y escrito por Javier Martínez-Rodríguez. Aquí se documentan únicamente los cambios hechos en este fork; el historial completo de la autoría original está intacto en el historial de commits de este repositorio.
+
+## 0.1.1
+
+- **Corregido:** `id_ramo_to_tipo_ramo()` no clasificaba el ramo 56 (Servicios de Salud del IMSS para el Bienestar / IMSS-Bienestar), formalizado como ramo presupuestario propio a partir del ciclo 2026. El gasto de ese ramo quedaba con `tipo_ramo = NA` y por lo tanto desaparecía de cualquier agrupación o total que usara esa clasificación. Se agregó a la categoría "Entidades sujetas a control presupuestario directo", junto con IMSS (50) e ISSSTE (51).
+- **Pendiente de revisión (no aplicado en esta versión):** se detectaron dos posibles discrepancias entre `netear_tp()` y otras reimplementaciones manuales de la misma lógica de neteo usadas en scripts externos: (1) la excepción "no netear si `id_ramo == 51`" se aplica en `netear_tp()` a las ocho partidas de aportaciones ISSSTE/cesantía por igual, mientras que en al menos una reimplementación externa esa excepción solo se aplicaba a la partida 16107; (2) `netear_tp()` no incluye una regla para la partida 45203 ("Transferencias para el pago de pensiones y jubilaciones") del ramo 19, que sí aparece en esa reimplementación externa. No se modificó el comportamiento de `netear_tp()` para ninguno de los dos casos hasta confirmar, contra la metodología oficial de la Cuenta Pública, cuál regla es la correcta. Ver comentario `TODO` junto a la función.
