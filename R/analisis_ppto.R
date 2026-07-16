@@ -1238,6 +1238,14 @@ bind_pef_tp_wide <- function(lista_df, ...) {
 #' @return .xframe cuya descripción de ramo indica los casos en que esa
 #' categoría del gasto debe ser neteada.
 #' @export
+# TODO (fork leonugo, 2026-07-16): revisar dos posibles discrepancias entre
+# esta función y reimplementaciones manuales de la misma lógica usadas en
+# otros scripts del proyecto de Presupuesto: (1) la excepción de ramo 51
+# aplicada aquí a las 8 partidas de aportaciones ISSSTE/cesantía por igual
+# (abajo) puede no ser correcta para todas ellas; (2) falta una posible
+# regla para la partida 45203 (transferencias para pago de pensiones y
+# jubilaciones) del ramo 19. No se modifica el comportamiento todavía —
+# ver NEWS.md 0.1.1 para el detalle antes de tocar esto.
 netear_tp <- function(.x, ..., keep_mensual = T) {
   .x <- .x %>%
     janitor::clean_names() %>%
@@ -1471,8 +1479,12 @@ id_ramo_to_tipo_ramo <- function(id_ramo) {
                    "46", "47", "48") ~ "Ramos administrativos",
     y %in% c("19", "23", "25", "33",
                    "24", "28", "29", "30", "34") ~ "Ramos generales",
-    y %in% c("50", "51",
-             "GYN", "GYR") ~ "Entidades sujetas a control presupuestario directo",
+    y %in% c("50", "51", "56",
+             "GYN", "GYR") ~ "Entidades sujetas a control presupuestario directo", # nolint
+    # NOTA (fork leonugo, 2026-07-16): se agrega el ramo 56 (Servicios de
+    # Salud del IMSS para el Bienestar / IMSS-Bienestar), formalizado como
+    # ramo propio a partir del ciclo 2026. Antes de este cambio quedaba
+    # como NA en cualquier agrupación por tipo_ramo. Ver NEWS.md.
     y %in% c("52", "53",
              "TZZ", "TOQ") ~ "Empresas productivas del estado",
     T ~ NA_character_
