@@ -1510,7 +1510,8 @@ id_ramo_to_tipo_ramo <- function(id_ramo) {
                    "15", "16", "17", "18",
                    "20", "21", "27", "31",
                    "36", "37", "38", "45",
-                   "46", "47", "48") ~ "Ramos administrativos",
+                   "46", "47", "48",
+                   "54", "55") ~ "Ramos administrativos", # nolint
     y %in% c("19", "23", "25", "33",
                    "24", "28", "29", "30", "34") ~ "Ramos generales",
     y %in% c("50", "51", "56",
@@ -1519,6 +1520,18 @@ id_ramo_to_tipo_ramo <- function(id_ramo) {
     # Salud del IMSS para el Bienestar / IMSS-Bienestar), formalizado como
     # ramo propio a partir del ciclo 2026. Antes de este cambio quedaba
     # como NA en cualquier agrupación por tipo_ramo. Ver NEWS.md.
+    #
+    # NOTA (fork leonugo, 2026-07-16): se agregan los ramos 54 (Secretaría
+    # de las Mujeres) y 55 (Agencia de Transformación Digital y
+    # Telecomunicaciones, ATDT), ambos creados por la reforma a la Ley
+    # Orgánica de la Administración Pública Federal (DOF 28-nov-2024) que
+    # entró en vigor con el ciclo 2025-2026. Verificado: la Secretaría de
+    # las Mujeres se creó explícitamente como "Ramo Administrativo 54"
+    # (prensa citando el decreto); la ATDT tiene "rango de secretaría de
+    # Estado" y absorbió entidades que antes vivían en otros ramos
+    # administrativos (Presidencia, SICT), no en organismos de control
+    # presupuestario directo (categoría reservada por la LFPRH a
+    # IMSS/ISSSTE/IMSS-Bienestar). Ver NEWS.md.
     y %in% c("52", "53",
              "TZZ", "TOQ") ~ "Empresas productivas del estado",
     T ~ NA_character_
